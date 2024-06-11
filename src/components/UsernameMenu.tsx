@@ -22,6 +22,14 @@ export default function UsernameMenu() {
 			<DropdownMenuContent className="min-w-52">
 				<DropdownMenuItem className="px-3 py-2 hover:border-none">
 					<Link
+						to="/manage-restaurant"
+						className="font-bold hover:text-orange-500"
+					>
+						Manage Restaurant
+					</Link>
+				</DropdownMenuItem>
+				<DropdownMenuItem className="px-3 py-2 hover:border-none">
+					<Link
 						to="/user-profile"
 						className="font-bold hover:text-orange-500"
 					>
