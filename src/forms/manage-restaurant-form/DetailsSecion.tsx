@@ -67,12 +67,12 @@ export default function DetailsSecion() {
 					name="deliveryPrice"
 					render={({ field }) => (
 						<FormItem className="max-w-[25%]">
-							<FormLabel>Delivery price (vnd)</FormLabel>
+							<FormLabel>Delivery price (£)</FormLabel>
 							<FormControl>
 								<Input
 									{...field}
 									className="bg-white"
-									placeholder="20,000"
+									placeholder="1.50"
 								/>
 							</FormControl>
 							<FormMessage />
