@@ -14,7 +14,7 @@ export interface MenuItem {
 }
 export interface Restaurant {
 	_id: string;
-	name: string;
+	restaurantName: string;
 	city: string;
 	country: string;
 	deliveryPrice: number;
@@ -22,4 +22,13 @@ export interface Restaurant {
 	cuisines: string[];
 	menuItems: MenuItem[];
 	imageUrl: string;
+}
+
+export interface RestaurantSearchResponse {
+	data: Restaurant[];
+	pagination: {
+		tolal: number;
+		page: number;
+		pages: number;
+	};
 }
