@@ -1,3 +1,4 @@
+import { useCreateCheckoutSession } from '@/api/OrderApi';
 import { useGetRestaurant } from '@/api/RestaurantApi';
 import CheckoutButton from '@/components/CheckoutButton';
 import MenuItem from '@/components/MenuItem';
@@ -20,6 +21,8 @@ export type CartItem = {
 export default function DetailPage() {
 	const { restaurantId } = useParams();
 	const { restaurant, isLoading } = useGetRestaurant(restaurantId);
+	const { createCheckoutSession, isLoading: isCheckoutLoading } =
+		useCreateCheckoutSession();
 
 	const [cartItems, setCartItems] = useState<CartItem[]>(() => {
 		const cartItems = sessionStorage.getItem(`cartItems-${restaurantId}`);
@@ -60,8 +63,29 @@ export default function DetailPage() {
 		});
 	};
 
-	const onCheckout = (userFormData: UserFormData) => {
-		console.log('userFormData', userFormData);
+	const onCheckout = async (userFormData: UserFormData) => {
+		if (!restaurant) {
+			return;
+		}
+
+		const checkoutData = {
+			cartItems: cartItems.map((item) => ({
+				menuItemId: item._id,
+				name: item.name,
+				quantity: item.quantity.toString(),
+			})),
+			deliveryDetails: {
+				email: userFormData.email as string,
+				name: userFormData.name,
+				addressLine1: userFormData.addressLine1,
+				city: userFormData.city,
+				country: userFormData.country,
+			},
+			restaurantId: restaurant._id,
+		};
+
+		const data = await createCheckoutSession(checkoutData);
+		window.location.href = data.url;
 	};
 
 	if (isLoading || !restaurant) {
@@ -82,6 +106,7 @@ export default function DetailPage() {
 					<span className="text-2xl font-bold tracking-tight">Menu</span>
 					{restaurant.menuItems.map((menuItem) => (
 						<MenuItem
+							key={menuItem._id}
 							menuItem={menuItem}
 							addToCart={() => addToCart(menuItem)}
 						/>
@@ -99,6 +124,7 @@ export default function DetailPage() {
 							<CheckoutButton
 								disabled={cartItems.length === 0}
 								onCheckout={onCheckout}
+								isLoading={isCheckoutLoading}
 							/>
 						</CardFooter>
 					</Card>
