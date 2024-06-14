@@ -24,6 +24,35 @@ export interface Restaurant {
 	imageUrl: string;
 }
 
+export type OrderStatus =
+	| 'placed'
+	| 'paid'
+	| 'inProgress'
+	| 'outForDelivery'
+	| 'delivered';
+
+export interface Order {
+	_id: string;
+	restaurant: Restaurant;
+	user: User;
+	cartItems: {
+		menuItemId: string;
+		name: string;
+		quantity: string;
+	}[];
+	deliveryDetails: {
+		email: string;
+		name: string;
+		addressLine1: string;
+		city: string;
+		country: string;
+	};
+	totalAmount: number;
+	status: OrderStatus;
+	createdAt: string;
+	restaurantId: string;
+}
+
 export interface RestaurantSearchResponse {
 	data: Restaurant[];
 	pagination: {
