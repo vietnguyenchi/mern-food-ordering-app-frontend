@@ -20,7 +20,7 @@ export default function HomePage() {
 				</h1>
 				<span className="text-xl">Food is just a click away!</span>
 				<SearchBar
-					placeHolder="Search by City or Town"
+					placeHolder="Your city is Ha Noi, Ho Chi Minh, Da Nang, etc."
 					onSubmit={handleSearchSubmit}
 				/>
 			</div>
